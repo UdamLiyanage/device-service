@@ -1,6 +1,10 @@
 package main
 
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
+	"log"
+)
 
 type Database struct {
 	Collection *mongo.Collection
@@ -8,6 +12,20 @@ type Database struct {
 
 var db = Database{Collection: connect()}
 
+func setupRouter() *gin.Engine {
+	r := gin.Default()
+
+	r.GET("/devices/:id", readDevice)
+
+	r.POST("/devices", createDevice)
+
+	r.PUT("/devices/:id", updateDevice)
+
+	r.DELETE("/devices/:id", deleteDevice)
+	return r
+}
+
 func main() {
-	println("Main Function")
+	r := setupRouter()
+	log.Fatal(r.Run())
 }
