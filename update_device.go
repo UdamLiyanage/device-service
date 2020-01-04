@@ -1,7 +1,26 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"context"
+	"encoding/json"
+	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 func updateDevice(c *gin.Context) {
-	c.String(200, "Update Device Function")
+	var device Device
+	err := json.NewDecoder(c.Request.Body).Decode(&device)
+	checkError(err, c)
+	objID, err := primitive.ObjectIDFromHex(c.Param("id"))
+	checkError(err, c)
+	filter := bson.M{"_id": objID}
+	update := bson.M{
+		"$set": bson.M{
+			"name": device.Name,
+		},
+	}
+	_, err = db.Collection.UpdateOne(context.TODO(), filter, update)
+	checkError(err, c)
+	c.Status(200)
 }
