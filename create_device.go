@@ -10,13 +10,9 @@ import (
 func createDevice(c *gin.Context) {
 	var device Device
 	err := json.NewDecoder(c.Request.Body).Decode(&device)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	insertResult, err := db.Collection.InsertOne(context.TODO(), device)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	device.ID = insertResult.InsertedID.(primitive.ObjectID)
 	c.JSON(201, device)
 }
