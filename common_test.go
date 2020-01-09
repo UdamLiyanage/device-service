@@ -19,5 +19,6 @@ func newRouter() *gin.Engine {
 	r.GET("/devices/:id", readDevice)
 	r.POST("/devices", createDevice)
 	r.DELETE("/devices/:id", deleteDevice)
+	r.PUT("/devices/:id", updateDevice)
 	return r
 }
