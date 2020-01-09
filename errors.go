@@ -15,5 +15,5 @@ func checkError(err error, c *gin.Context) {
 }
 
 func notFoundResponse(c *gin.Context) {
-	_ = c.AbortWithError(404, nil)
+	c.AbortWithStatus(404)
 }
