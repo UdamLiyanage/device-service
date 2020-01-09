@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -35,10 +34,4 @@ func TestInvalidDeviceGet(t *testing.T) {
 	if resp.StatusCode != http.StatusNotFound {
 		t.Errorf("Status should be 404, got %d", resp.StatusCode)
 	}
-}
-
-func newRouter() *gin.Engine {
-	r := gin.Default()
-	r.GET("/devices/:id", readDevice)
-	return r
 }

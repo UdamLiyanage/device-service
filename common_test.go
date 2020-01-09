@@ -13,3 +13,9 @@ func TestMain(m *testing.M) {
 	// Run the other tests
 	os.Exit(m.Run())
 }
+
+func newRouter() *gin.Engine {
+	r := gin.Default()
+	r.GET("/devices/:id", readDevice)
+	return r
+}
