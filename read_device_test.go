@@ -20,7 +20,7 @@ func TestValidDeviceGet(t *testing.T) {
 func TestInvalidDeviceGet(t *testing.T) {
 	r := newRouter()
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/devices/5e103f782aa554ae4e6abb8", nil)
+	req, _ := http.NewRequest("GET", "/devices/000000000000000000000000", nil)
 	r.ServeHTTP(w, req)
 	if w.Code != http.StatusNotFound {
 		t.Errorf("Status should be 404, got %d", w.Code)
