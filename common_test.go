@@ -17,5 +17,7 @@ func TestMain(m *testing.M) {
 func newRouter() *gin.Engine {
 	r := gin.Default()
 	r.GET("/devices/:id", readDevice)
+	r.POST("/devices", createDevice)
+	r.DELETE("/devices/:id", deleteDevice)
 	return r
 }
