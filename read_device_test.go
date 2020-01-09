@@ -19,14 +19,10 @@ func TestValidDeviceGet(t *testing.T) {
 
 func TestInvalidDeviceGet(t *testing.T) {
 	r := newRouter()
-	mockServer := httptest.NewServer(r)
-
-	resp, err := http.Get(mockServer.URL + "/devices/5e103f782aa554ae4e6abb8")
-
-	if err != nil {
-		t.Fatal(err)
-	}
-	if resp.StatusCode != http.StatusNotFound {
-		t.Errorf("Status should be 404, got %d", resp.StatusCode)
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("GET", "/devices/5e103f782aa554ae4e6abb8", nil)
+	r.ServeHTTP(w, req)
+	if w.Code != http.StatusNotFound {
+		t.Errorf("Status should be 404, got %d", w.Code)
 	}
 }
