@@ -8,7 +8,6 @@ import (
 
 func TestValidDeviceGet(t *testing.T) {
 	//Object ID - 5e103f782aa554ae4e6abb8b is always available as a test document
-	//r := getRouter(true)
 	r := newRouter()
 	mockServer := httptest.NewServer(r)
 
