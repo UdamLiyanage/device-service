@@ -34,7 +34,7 @@ func testRequestStatusCode(method string, url string, body []byte, code int, t *
 	req, _ := http.NewRequest(method, url, bytes.NewBuffer(body))
 	r.ServeHTTP(w, req)
 	if w.Code != code {
-		t.Errorf("Status should be 201, got %d", w.Code)
+		t.Errorf("Status should be %d, got %d", code, w.Code)
 	}
 	return w
 }
