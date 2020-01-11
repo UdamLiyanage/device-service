@@ -1,10 +1,8 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"net/http"
-	"net/http/httptest"
 	"testing"
 )
 
@@ -18,19 +16,8 @@ func TestCreateDeviceAndDelete(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	r := newRouter()
-	createRecorder := httptest.NewRecorder()
-	createRequest, _ := http.NewRequest("POST", "/devices", bytes.NewBuffer(body))
-	r.ServeHTTP(createRecorder, createRequest)
-	if createRecorder.Code != http.StatusCreated {
-		t.Errorf("Status should be 201, got %d", createRecorder.Code)
-	}
+	createRecorder := testRequestStatusCode("POST", "/devices", body, http.StatusCreated, t)
 
 	_ = json.NewDecoder(createRecorder.Body).Decode(&device)
-	deleteRequest, _ := http.NewRequest("DELETE", "/devices/"+device.ID.Hex(), nil)
-	deleteRecorder := httptest.NewRecorder()
-	r.ServeHTTP(deleteRecorder, deleteRequest)
-	if deleteRecorder.Code != http.StatusNotFound {
-		t.Errorf("Status should be 404, got %d", deleteRecorder.Code)
-	}
+	testRequestStatusCode("DELETE", "/devices/"+device.ID.Hex(), nil, http.StatusNotFound, t)
 }
