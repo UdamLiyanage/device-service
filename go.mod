@@ -7,6 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
+	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/pkg/errors v0.8.1 // indirect
 	github.com/unrolled/secure v1.0.7
 	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect

@@ -2,9 +2,11 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	_ "github.com/joho/godotenv/autoload"
 	"github.com/unrolled/secure"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
+	"os"
 )
 
 type Database struct {
@@ -19,7 +21,7 @@ func init() {
 
 func setupRouter() *gin.Engine {
 	secureMiddleware := secure.New(secure.Options{
-		AllowedHosts:  []string{"auth.cliko.io"},
+		AllowedHosts:  []string{os.Getenv("ALLOWED_HOSTS")},
 		SSLRedirect:   true,
 		STSSeconds:    31536000,
 		FrameDeny:     true,
@@ -43,7 +45,7 @@ func setupRouter() *gin.Engine {
 
 	r := gin.Default()
 	auth := gin.BasicAuth(gin.Accounts{
-		"udam": "g4}U2)$S_q7n=aH#2WRj",
+		os.Getenv("API_AUTH_USERNAME"): os.Getenv("API_AUTH_PASSWORD"),
 	})
 	r.Use(auth)
 	r.Use(secureFunc)
