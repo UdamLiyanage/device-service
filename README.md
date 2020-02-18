@@ -30,3 +30,17 @@ Below is the structure of the JSON document that holds device data
 	]
 }
 ```
+## Document Structure for Device - Revision 2
+```
+{
+	"_id": "objectID",
+	"serial": "device_serial",
+	"uuid": "UUID",
+	"device_definition_id": "device_definition_id",
+	"name": "device_name",
+	"firmware_version": "firmware_version",
+	"last_firmware_update": "last_firmware_update_datetime",
+	"created_at": "created_datetime",
+	"updated_at": "updated_datetime"
+}
+```
