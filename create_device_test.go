@@ -8,9 +8,8 @@ import (
 
 func TestCreateDeviceAndDelete(t *testing.T) {
 	device := Device{
-		Name:           "Go Test Device",
-		Serial:         "Go_Test_Device_Serial",
-		Configurations: nil,
+		Name:   "Go Test Device",
+		Serial: "Go_Test_Device_Serial",
 	}
 	body, err := json.Marshal(device)
 	if err != nil {
