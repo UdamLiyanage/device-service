@@ -2,22 +2,26 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"github.com/gin-gonic/gin"
-	"github.com/go-ozzo/ozzo-validation/v4"
+	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
 )
 
-func createDevice(c *gin.Context) {
-	var device Device
-	err := json.NewDecoder(c.Request.Body).Decode(&device)
-	checkError(err, c)
-	device.Serial, err = validation.EnsureString(&device.Serial)
-	checkError(err, c)
-	device.Name, err = validation.EnsureString(&device.Name)
-	checkError(err, c)
+func createDevice(c echo.Context) error {
+	device := new(Device)
+	if err := c.Bind(device); err != nil {
+		return err
+	}
+	err := validation.Validate(&device)
+	if checkError(err) {
+		return c.JSON(422, err)
+	}
+	device.CreatedAt, device.UpdatedAt = time.Now(), time.Now()
 	insertResult, err := DB.Collection.InsertOne(context.TODO(), device)
-	checkError(err, c)
+	if checkError(err) {
+		return c.JSON(500, err)
+	}
 	device.ID = insertResult.InsertedID.(primitive.ObjectID)
-	c.JSON(201, device)
+	return c.JSON(201, device)
 }

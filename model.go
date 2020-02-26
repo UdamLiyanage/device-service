@@ -1,15 +1,18 @@
 package main
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"time"
+)
 
 type Device struct {
 	ID           primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name         string             `json:"name,omitempty" bson:"name,omitempty"`
+	Name         string             `json:"name" bson:"name"`
 	Serial       string             `json:"serial" bson:"serial"`
 	UUID         string             `json:"uuid" bson:"uuid"`
 	DefID        string             `json:"device_definition_id" bson:"device_definition_id"`
 	Firmware     string             `json:"firmware_version" bson:"firmware_version"`
-	LastFirmware primitive.DateTime `json:"last_firmware_update" bson:"last_firmware_update"`
-	CreatedAt    primitive.DateTime `json:"created_at" bson:"created_at"`
-	UpdatedAt    primitive.DateTime `json:"updated_at" bson:"updated_at"`
+	LastFirmware time.Time          `json:"last_firmware_update" bson:"last_firmware_update"`
+	CreatedAt    time.Time          `json:"created_at" bson:"created_at"`
+	UpdatedAt    time.Time          `json:"updated_at" bson:"updated_at"`
 }

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 	"os"
 )
 
@@ -18,24 +18,32 @@ func init() {
 	DB.Collection = connect()
 }
 
-func setupRouter() *gin.Engine {
-	r := gin.Default()
-	auth := gin.BasicAuth(gin.Accounts{
-		os.Getenv("API_AUTH_USERNAME"): os.Getenv("API_AUTH_PASSWORD"),
-	})
-	r.Use(auth)
+func setupRouter() *echo.Echo {
+	e := echo.New()
+	e.Use(middleware.RequestID())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "time=${time_rfc3339} method=${method}, uri=${uri}, status=${status} path=${path} latency=${latency_human}\n",
+	}))
+	e.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+		if username == os.Getenv("API_AUTH_USERNAME") && password == os.Getenv("API_AUTH_PASSWORD") {
+			return true, nil
+		}
+		return false, nil
+	}))
 
-	r.GET("/devices/:id", readDevice)
+	e.Use(middleware.Recover())
 
-	r.POST("/devices", createDevice)
+	e.GET("/devices/:id", readDevice)
 
-	r.PUT("/devices/:id", updateDevice)
+	e.POST("/devices", createDevice)
 
-	r.DELETE("/devices/:id", deleteDevice)
-	return r
+	e.PUT("/devices/:id", updateDevice)
+
+	e.DELETE("/devices/:id", deleteDevice)
+	return e
 }
 
 func main() {
 	r := setupRouter()
-	log.Fatal(r.Run(":8002"))
+	r.Logger.Fatal(r.Start(":8002"))
 }
