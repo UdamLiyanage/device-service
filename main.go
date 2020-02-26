@@ -35,7 +35,7 @@ func setupRouter() *echo.Echo {
 
 	e.GET("/devices/:id", readDevice)
 
-	e.POST("/devices", createDevice)
+	e.POST("/devices/creates", createDevice)
 
 	e.PUT("/devices/:id", updateDevice)
 

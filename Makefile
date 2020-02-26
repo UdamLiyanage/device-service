@@ -1,4 +1,4 @@
-IMAGE := udamliyanage/device-service:v2
+IMAGE := udamliyanage/device-service:v2.1.0
 
 test:
 	true
