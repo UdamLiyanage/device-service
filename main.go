@@ -34,8 +34,9 @@ func setupRouter() *echo.Echo {
 	e.Use(middleware.Recover())
 
 	e.GET("/devices/:id", readDevice)
+	e.GET("/devices/all/:id", readAllDevices)
 
-	e.POST("/devices/creates", createDevice)
+	e.POST("/devices/create", createDevice)
 
 	e.PUT("/devices/:id", updateDevice)
 
