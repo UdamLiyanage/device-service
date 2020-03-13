@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
@@ -9,6 +10,7 @@ import (
 type (
 	Paginator interface {
 		Paginate() PaginateResult
+		PageCheck(c echo.Context) error
 	}
 
 	Device struct {
@@ -28,6 +30,8 @@ type (
 		URL       string
 		FirstPage bool
 		Filter    bson.D
+		QueryVal  string
+		QueryKey  string
 	}
 
 	PaginateResult struct {
