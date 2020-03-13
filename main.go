@@ -8,14 +8,12 @@ import (
 	"os"
 )
 
-type Database struct {
-	Collection *mongo.Collection
-}
-
-var DB = Database{}
+var (
+	collection *mongo.Collection
+)
 
 func init() {
-	DB.Collection = connect()
+	collection = connect()
 }
 
 func setupRouter() *echo.Echo {
@@ -34,7 +32,8 @@ func setupRouter() *echo.Echo {
 	e.Use(middleware.Recover())
 
 	e.GET("/devices/:id", readDevice)
-	e.GET("/devices/all/:id", readAllDevices)
+	e.GET("/devices/all/user/:id", readAllUserDevices)
+	e.GET("/devices/all", readAllDevices)
 
 	e.POST("/devices/create", createDevice)
 

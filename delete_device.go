@@ -19,7 +19,7 @@ func deleteDevice(c echo.Context) error {
 		return c.JSON(500, err)
 	}
 	filter := bson.D{primitive.E{Key: "_id", Value: objID}}
-	_, err = DB.Collection.DeleteOne(context.TODO(), filter, opts)
+	_, err = collection.DeleteOne(context.TODO(), filter, opts)
 	if checkError(err) {
 		return c.JSON(500, err)
 	}

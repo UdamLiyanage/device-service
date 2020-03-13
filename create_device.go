@@ -18,7 +18,7 @@ func createDevice(c echo.Context) error {
 		return c.JSON(422, err)
 	}
 	device.CreatedAt, device.UpdatedAt = time.Now(), time.Now()
-	insertResult, err := DB.Collection.InsertOne(context.TODO(), device)
+	insertResult, err := collection.InsertOne(context.TODO(), device)
 	if checkError(err) {
 		return c.JSON(500, err)
 	}

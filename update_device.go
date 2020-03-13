@@ -31,7 +31,7 @@ func updateDevice(c echo.Context) error {
 		},
 	}
 	device.UpdatedAt = time.Now()
-	res, err := DB.Collection.UpdateOne(context.TODO(), filter, update)
+	res, err := collection.UpdateOne(context.TODO(), filter, update)
 	if checkError(err) {
 		return c.JSON(500, err)
 	}
