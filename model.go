@@ -25,6 +25,12 @@ type (
 		UpdatedAt    time.Time          `json:"updated_at" bson:"updated_at"`
 	}
 
+	Firmware struct {
+		ID         primitive.ObjectID `json:"_id" bson:"_id"`
+		Version    string             `json:"firmware_version" bson:"firmware_version"`
+		LastUpdate time.Time          `json:"last_firmware_update_date" bson:"last_firmware_update"`
+	}
+
 	Pager struct {
 		Limit     int64
 		URL       string

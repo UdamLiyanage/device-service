@@ -34,6 +34,7 @@ func setupRouter() *echo.Echo {
 	e.GET("/devices/:id", readDevice)
 	e.GET("/devices/all/user/:id", readAllUserDevices)
 	e.GET("/devices/all", readAllDevices)
+	e.GET("/devices/firmware-details/:id", readDeviceFirmwareDetails)
 
 	e.POST("/devices/create", createDevice)
 
@@ -45,5 +46,5 @@ func setupRouter() *echo.Echo {
 
 func main() {
 	r := setupRouter()
-	r.Logger.Fatal(r.Start(":8002"))
+	r.Logger.Fatal(r.Start(":8000"))
 }

@@ -5,6 +5,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"os"
 	"strconv"
@@ -19,9 +20,29 @@ func readDevice(c echo.Context) error {
 	filter := bson.M{"_id": objID}
 	err = collection.FindOne(context.TODO(), filter).Decode(&device)
 	if err != nil {
-		return c.JSON(404, nil)
+		if err == mongo.ErrNoDocuments {
+			return c.JSON(404, nil)
+		}
+		return c.JSON(500, err)
 	}
 	return c.JSON(200, device)
+}
+
+func readDeviceFirmwareDetails(c echo.Context) error {
+	var firmware Firmware
+	objID, err := primitive.ObjectIDFromHex(c.Param("id"))
+	if checkError(err) {
+		return err
+	}
+	filter := bson.M{"_id": objID}
+	err = collection.FindOne(context.TODO(), filter).Decode(&firmware)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return c.JSON(404, nil)
+		}
+		return err
+	}
+	return c.JSON(200, firmware)
 }
 
 func readAllUserDevices(c echo.Context) error {
