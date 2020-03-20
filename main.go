@@ -39,6 +39,7 @@ func setupRouter() *echo.Echo {
 	e.POST("/devices/create", createDevice)
 
 	e.PUT("/devices/:id", updateDevice)
+	e.PUT("/devices/update/firmware/:device_id/:firmware_version", updateDeviceFirmware)
 
 	e.DELETE("/devices/:id", deleteDevice)
 	return e

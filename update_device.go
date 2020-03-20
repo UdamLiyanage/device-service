@@ -37,3 +37,22 @@ func updateDevice(c echo.Context) error {
 	}
 	return c.JSON(200, res)
 }
+
+func updateDeviceFirmware(c echo.Context) error {
+	objID, err := primitive.ObjectIDFromHex(c.Param("id"))
+	if checkError(err) {
+		return err
+	}
+	filter := bson.M{"_id": objID}
+	update := bson.M{
+		"$set": bson.M{
+			"firmware_version":      c.Param("firmware_version"),
+			"last_firmware_version": time.Now(),
+		},
+	}
+	_, err = collection.UpdateOne(context.TODO(), filter, update)
+	if checkError(err) {
+		return err
+	}
+	return c.JSON(200, nil)
+}
